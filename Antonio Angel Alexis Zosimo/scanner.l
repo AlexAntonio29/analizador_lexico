@@ -3,6 +3,7 @@
 %option noyywrap
 
 %{
+#include "scanner.hpp"
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -43,17 +44,12 @@
 <<EOF>>                                 { return _eof; }
 %%
 
-#include "scanner.hpp"
-
 scanner::scanner(const string& fname) : lineas(1) {
-    archivo.open(fname.c_str());
-    if (archivo.is_open()) {
-        switch_streams(&archivo, &cout);
-    }
+    yyin = fopen(fname.c_str(), "r");
 }
 
 scanner::~scanner() {
-    if (archivo.is_open()) archivo.close();
+    if (yyin) fclose(yyin);
 }
 
 scanner::token scanner::next() {

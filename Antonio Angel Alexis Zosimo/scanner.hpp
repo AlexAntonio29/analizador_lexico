@@ -25,7 +25,6 @@ public:
 private:
     int lineas;
     string lexema;
-    ifstream archivo;
 
 public:
     scanner(const string& fname);
