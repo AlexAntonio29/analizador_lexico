@@ -5,11 +5,12 @@
 #include <string>
 #include <cctype>
 #include <ios>
-#include <FlexLexer.h>
 
 using namespace std;
 
-class scanner : public yyFlexLexer {
+extern int yylineno;
+
+class scanner {
 
     static int udef;
 
@@ -25,6 +26,7 @@ public:
 private:
     int lineas;
     string lexema;
+    ifstream archivo;
 
 public:
     scanner(const string& fname);
@@ -33,6 +35,8 @@ public:
     token next();
     string getLexema() const { return lexema; }
     int getLineas() const { return lineas; }
+    
+    friend int yylex();
 };
 
 #endif

@@ -1,0 +1,13 @@
+a: true;
+b: false;
+c: a or true;
+c': if c then false;
+c'': d ? a : b;
+e_4: (a or b) & !c';
+tellme c' | e;
+id_34'
+0
+04
+0x43ed
+3.4
+(3)

@@ -1,7 +1,11 @@
 #include <iostream>
+#include <iomanip> // Para setw
 #include "scanner.hpp"
+#include <fstream>
 
 using namespace std;
+
+ifstream* archivo_actual = nullptr;
 
 int main(int argc, const char * argv[]){
     string nombreArchivo;
@@ -9,6 +13,9 @@ int main(int argc, const char * argv[]){
     cin >> nombreArchivo;
 
     scanner s(nombreArchivo);
+    
+    archivo_actual = new ifstream(nombreArchivo.c_str());
+
     scanner::token t;
 
     do{
@@ -16,19 +23,19 @@ int main(int argc, const char * argv[]){
 
         switch(t){
             case scanner::_id:
-                cout << "id\t\t" << s.getLexema() << "\n";
+                cout << left << setw(12) << "id" << s.getLexema() << "\n";
                 break;
             case scanner::_int:
-                cout << "integer\t\t" << s.getLexema() << "\n";
+                cout << left << setw(12) << "integer" << s.getLexema() << "\n";
                 break;
             case scanner::_oct:
-                cout << "octal\t\t" << s.getLexema() << "\n";
+                cout << left << setw(12) << "octal" << s.getLexema() << "\n";
                 break;
             case scanner::_hexa:
-                cout << "hexa\t\t" << s.getLexema() << "\n";
+                cout << left << setw(12) << "hexa" << s.getLexema() << "\n";
                 break;
             case scanner::_real:
-                cout << "real\t\t" << s.getLexema() << "\n";
+                cout << left << setw(12) << "real" << s.getLexema() << "\n";
                 break;
             case scanner::_reservada:
                 cout << s.getLexema() << "\n";
@@ -74,5 +81,6 @@ int main(int argc, const char * argv[]){
 
     }while(t != scanner::_eof && t != scanner::_err);
 
+    delete archivo_actual;
     return 0;
 }
