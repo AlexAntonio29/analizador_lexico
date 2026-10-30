@@ -5,54 +5,35 @@
 #include <string>
 #include <cctype>
 #include <ios>
+#include <FlexLexer.h>
 
 using namespace std;
 
-class scanner{
+class scanner : public yyFlexLexer {
 
     static int udef;
 
 public:
-    typedef enum { _id, _int, _oct, _eof, _err } token;
+    typedef enum { 
+        _id, _int, _oct, _hexa, _real, 
+        _reservada, 
+        _lpar, _rpar, _scolon, _selector, _def, 
+        _and, _or, _not, _impl, 
+        _eof, _err 
+    } token;
 
 private:
-    ifstream file;
-    long pos;
-
-    int read(){ //char
-        return file.get();
-    }
-
-    void failure(){
-    
-        file.seekg(pos);
-    }
-
-    void success(){
-    	long p=file.tellg();
-    	if(p>=0)
-        pos =p;
-    }
-
-    void fallback(){
-    	
-        file.seekg(-1, ios::cur);
-    }
-
-    bool id();
-    token num();
-
-    void wsp();
-    bool eof();
+    int lineas;
+    string lexema;
+    ifstream archivo;
 
 public:
-    scanner(const string& fname) : file(fname.c_str()), pos(0) {}
-
-    ~scanner(){
-        file.close();
-    }
+    scanner(const string& fname);
+    ~scanner();
 
     token next();
+    string getLexema() const { return lexema; }
+    int getLineas() const { return lineas; }
 };
 
 #endif
